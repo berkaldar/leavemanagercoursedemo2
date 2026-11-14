@@ -8,11 +8,39 @@
 - The whole suite runs inside `scripts/check` — one command, everywhere.
 
 ## Frameworks & layout
-<!-- Test framework(s), where tests live, naming pattern. -->
+
+- **Vitest** only, always as `vitest run` (never watch mode — Resource hygiene).
+- **Unit tests** next to the code: `<file>.test.ts`. Services are tested against an in-memory
+  fake repo (a plain TS object implementing the repo interface) — no DB, no HTTP.
+- **Architecture tests**: `tests/architecture.test.ts` at the repo root. It reads source files
+  with `node:fs`, extracts import paths, and asserts the forbidden dependencies of
+  `docs/architecture.md` — no extra library.
+- **Determinism**: services take "today" from an injected `Clock`; test steps run with `TZ=UTC`
+  and a fixed `en-US` locale. The v1 UI has no animations.
+- Every test step is `[fast]` for now; when the suite passes ~1 minute, split by selector
+  (Two speeds, rule 4).
+
+### Test scope (decided at bootstrap, 2026-11-14)
+
+Only **unit** and **architecture** tests exist. API integration, UI component and e2e tests are
+out of scope. Known consequences, accepted:
+1. BR-5 is proven at the service (unit) level. That a route passes the real session user to the
+   service is not tested — routes stay 1–3 lines and review checks it.
+2. Repos and SQL are not tested automatically — repos stay thin (SQL only, no logic); SQL
+   mistakes surface at VERIFY.
+3. UI criteria are proven only by agent-captured screenshots at SHIP (Evidence for UI criteria);
+   there is no automated regression of UI states.
+This overrides "Test layers" rule 1's component/integration layers for this project; changing
+it is a spec of its own.
 
 ## What must be tested
-<!-- e.g. every business rule (BR-n), every boundary/forbidden dependency; the e2e journeys and
-     budget, if the project has e2e at all (Test layers). -->
+
+- Every business rule BR-1…BR-8 (`docs/domain.md`): at least one unit test that fails when the
+  rule is broken, including its edge cases (weekends in BR-2, touching ranges in BR-4).
+- The domain invariants (balance never below 0; one approved request per balance change).
+- BR-5 authorization: a non-manager and a self-approval are refused by the service.
+- Every forbidden dependency in `docs/architecture.md`: one architecture-test assertion each.
+- e2e: none (Test scope).
 
 ## Test layers
 1. **The cheapest test that proves the criterion.** Unit first, then component or integration
