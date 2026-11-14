@@ -88,6 +88,15 @@ describe('sign in', () => {
     const { user } = await identity.signIn(email, password);
     expect(user.fullName).toBe('Long Name');
   });
+
+  it('refuses correct credentials one character over the limits (AC-4)', async () => {
+    const longEmail = `${'c'.repeat(243)}@example.com`; // 255 characters
+    const longPassword = 'q'.repeat(129);
+    await identity.ensureUser(longEmail, 'Too Long Email', 'demo-pass-3');
+    await identity.ensureUser('limit@example.com', 'Too Long Password', longPassword);
+    await expectInvalidCredentials(identity.signIn(longEmail, 'demo-pass-3'));
+    await expectInvalidCredentials(identity.signIn('limit@example.com', longPassword));
+  });
 });
 
 describe('current user', () => {
