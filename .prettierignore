@@ -1,0 +1,11 @@
+# ANEW workspace files are prose, not code — Prettier checks code only.
+*.md
+docs/
+specs/
+prompts/
+workflows/
+adapters/
+.claude/
+.github/
+scripts/
+package-lock.json
