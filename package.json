@@ -1,0 +1,30 @@
+{
+  "name": "leave-manager",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "packages/contracts",
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p packages/contracts && tsc --noEmit -p apps/api && tsc --noEmit -p apps/web && tsc --noEmit -p .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "dev:api": "npm run dev -w @leave/api",
+    "dev:web": "npm run dev -w @leave/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "eslint": "^10.15.0",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}

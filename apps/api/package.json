@@ -1,0 +1,11 @@
+{
+  "name": "@leave/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.ts"
+  },
+  "dependencies": {
+    "fastify": "^5.12.8"
+  }
+}

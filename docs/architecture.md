@@ -21,6 +21,12 @@ apps/web  (React SPA) ──HTTP/JSON──▶  apps/api  (Fastify, one process)
 Each module has three layers: `routes` (HTTP) → `service` (business rules) → `repo` (SQL), and a
 public `index.ts`.
 
+## Running locally
+
+`npm ci` once, then one command each (never part of `scripts/check`; Ctrl+C stops them):
+- API: `npm run dev:api` → `http://127.0.0.1:3000` (Node 24 runs the TypeScript directly).
+- Web: `npm run dev:web` → Vite dev server (`http://localhost:5173`).
+
 ## Modules / components and ownership
 
 | Module | Single responsibility | Owns |

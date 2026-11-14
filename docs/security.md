@@ -13,7 +13,7 @@
 - Every route has a JSON Schema with `additionalProperties: false`; the API accepts only
   `application/json` bodies.
 - SQL is always parameterized.
-- React escaping stays on; `dangerouslySetInnerHTML` is banned (ESLint `react/no-danger`).
+- React escaping stays on; `dangerouslySetInnerHTML` is banned (ESLint `no-restricted-syntax`).
 - Never in responses: stack traces, SQL, file paths, session tokens. Never in logs: passwords,
   session tokens, leave reasons.
 
