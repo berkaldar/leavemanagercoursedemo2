@@ -1,6 +1,6 @@
 # ADR 0001 — UI specs get a Claude Design artifact in ANALYZE
 
-- Status: Accepted
+- Status: Superseded by ADR-0002 ([0002-claude-design-in-analyze-and-verify.md](0002-claude-design-in-analyze-and-verify.md))
 - Date: 2026-11-14
 
 ## Context
