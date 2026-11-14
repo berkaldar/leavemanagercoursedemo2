@@ -9,7 +9,8 @@
   incidents: `incident/<date>-<short-name>`; trivial changes: `trivial/<short-name>` (see below).
 - Bootstrap: `chore/bootstrap` — the bootstrap output (`workflows/bootstrap.md`), merged like
   any branch. Other workspace and process changes (ADRs, `docs/`, `.claude/`, CI):
-  `chore/<short-name>`.
+  `chore/<short-name>`. `chore/` changes: no spec; PR + one independent reviewer (report posted
+  as a PR comment); the trivial one-file limit does not apply.
 - **No stacked branches.** Every branch starts from an up-to-date `main`, one open PR per branch.
   A branch that needs another one's work waits until that PR is merged. Squash-merge drops the
   base's commits from `main`, and deleting a base branch closes the PRs that target it.
@@ -47,10 +48,12 @@
 - PR template checklist completed; `scripts/check` green in CI; squash-merge.
 - **The review is on the PR.** The independent reviewer's report (reviewer subagent or fresh
   session) is posted to the PR as a comment (`gh pr comment`), and the PR description links the
-  plan's `## Triage`. A solo developer cannot approve their own PR on GitHub, so this comment is
-  the review record.
+  plan's `## Triage` (when there is a plan; otherwise the triage is recorded in a PR comment).
+  A solo developer cannot approve their own PR on GitHub, so this comment is the review record.
 - **Enforcement on this repo.** Branch protection is not available for a private repo on
   GitHub Free, so "no direct commits to `main`", "CI green before merge" and "review before
-  merge" are not enforced by GitHub. For Claude Code, `.claude/settings.json` denies pushing to
-  `main` and `gh pr merge --admin` (best effort: prefix rules, not a full parser). For humans
-  these rules are Documented only.
+  merge" are not enforced by GitHub. For Claude Code: the `protect-main.sh` hook blocks
+  `git push` while on `main`, to a refspec naming `main`, or with `--all`/`--mirror`; every
+  `gh pr merge` asks the human first (merge is the human's SHIP step), and `--admin` is denied
+  (best effort: text matching, not a shell parser). For humans these rules are not Enforced:
+  CI still runs on every push and PR (a red run is visible), but nothing blocks the merge.
