@@ -46,6 +46,9 @@ export function buildApp({ db, clock }: AppDeps): FastifyInstance {
     request.log.error(error);
     return reply.code(500).send(errorBody('INTERNAL', 'Something went wrong.'));
   });
+  app.setNotFoundHandler((_request, reply) =>
+    reply.code(404).send(errorBody('NOT_FOUND', 'Not found.')),
+  );
 
   registerIdentity(app, createIdentity(db, clock));
   app.addHook('onClose', () => db.close());
