@@ -50,6 +50,8 @@ export function buildApp({ db, clock }: AppDeps): FastifyInstance {
     reply.code(404).send(errorBody('NOT_FOUND', 'Not found.')),
   );
 
+  // Called on the root instance on purpose: its default-deny hook must cover every route.
+  // Wrapping it in app.register() would confine the hook to the identity routes.
   registerIdentity(app, createIdentity(db, clock));
   app.addHook('onClose', () => db.close());
 
