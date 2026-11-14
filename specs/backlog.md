@@ -13,3 +13,5 @@ step 7). Nothing lands here without that decision; noise is rejected in the tria
   — Recommendation: <the reviewer's action> — Deferred by: <name>, <YYYY-MM-DD>, <why>
   A decision deferred at bootstrap (its REPORT) uses Source: bootstrap <YYYY-MM-DD>.
 -->
+- **B-1** — README enforcement table has no row for "no agent push to `main`" (hook + permission ask) — Source: chore/git-hygiene (PR #5), review round 1 (`README.md:130-142`) — Severity: Info
+  — Recommendation: add a row "No push to main / merge needs human: Enforced (hook + ask) for Claude Code" — Deferred by: Berk, 2026-11-14, outside PR #5's A/B/C scope

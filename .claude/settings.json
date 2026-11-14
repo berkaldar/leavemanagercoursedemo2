@@ -5,7 +5,18 @@
       "Bash(git push -f:*)",
       "Bash(git reset --hard:*)",
       "Bash(git rebase:*)",
-      "Bash(rm -rf:*)"
+      "Bash(rm -rf:*)",
+      "Bash(git push * main)",
+      "Bash(git push * main *)",
+      "Bash(git push *:main)",
+      "Bash(git push *:main *)",
+      "Bash(git push *:refs/heads/main)",
+      "Bash(git push *:refs/heads/main *)",
+      "Bash(gh pr merge --admin*)",
+      "Bash(gh pr merge * --admin*)"
+    ],
+    "ask": [
+      "Bash(gh pr merge:*)"
     ]
   },
   "hooks": {
@@ -16,6 +27,15 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-shipped.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-main.sh"
           }
         ]
       }
