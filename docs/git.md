@@ -8,7 +8,11 @@
 - Fixes: `fix/<report-id>-<short-name>` (bug fixes carry a report, not a spec number);
   incidents: `incident/<date>-<short-name>`; trivial changes: `trivial/<short-name>` (see below).
 - Bootstrap: `chore/bootstrap` — the bootstrap output (`workflows/bootstrap.md`), merged like
-  any branch.
+  any branch. Other workspace and process changes (ADRs, `docs/`, `.claude/`, CI):
+  `chore/<short-name>`.
+- **No stacked branches.** Every branch starts from an up-to-date `main`, one open PR per branch.
+  A branch that needs another one's work waits until that PR is merged. Squash-merge drops the
+  base's commits from `main`, and deleting a base branch closes the PRs that target it.
 
 ## Commits
 - Conventional Commits, with a plan reference: `feat(catalog): paging endpoint [plan 0001/3]`.
@@ -41,3 +45,12 @@
 
 ## Pull requests
 - PR template checklist completed; `scripts/check` green in CI; squash-merge.
+- **The review is on the PR.** The independent reviewer's report (reviewer subagent or fresh
+  session) is posted to the PR as a comment (`gh pr comment`), and the PR description links the
+  plan's `## Triage`. A solo developer cannot approve their own PR on GitHub, so this comment is
+  the review record.
+- **Enforcement on this repo.** Branch protection is not available for a private repo on
+  GitHub Free, so "no direct commits to `main`", "CI green before merge" and "review before
+  merge" are not enforced by GitHub. For Claude Code, `.claude/settings.json` denies pushing to
+  `main` and `gh pr merge --admin` (best effort: prefix rules, not a full parser). For humans
+  these rules are Documented only.

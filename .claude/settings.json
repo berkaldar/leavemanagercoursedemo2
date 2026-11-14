@@ -5,7 +5,14 @@
       "Bash(git push -f:*)",
       "Bash(git reset --hard:*)",
       "Bash(git rebase:*)",
-      "Bash(rm -rf:*)"
+      "Bash(rm -rf:*)",
+      "Bash(git push * main)",
+      "Bash(git push * main *)",
+      "Bash(git push *:main)",
+      "Bash(git push *:main *)",
+      "Bash(git push *:refs/heads/main*)",
+      "Bash(gh pr merge --admin*)",
+      "Bash(gh pr merge * --admin*)"
     ]
   },
   "hooks": {
