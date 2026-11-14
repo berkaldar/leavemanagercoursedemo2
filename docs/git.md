@@ -59,4 +59,5 @@
   approve their own PR). It stays Documented: the review comment on the PR is the record.
   For Claude Code as well: the `protect-main.sh` hook blocks `git push` while on `main`, to a
   refspec naming `main`, or with `--all`/`--mirror`; every `gh pr merge` asks the human first
-  (merge is the human's SHIP step), and `--admin` is denied.
+  (merge is the human's SHIP step), and `--admin` is denied (best effort: text matching;
+  GitHub protection is the real gate).

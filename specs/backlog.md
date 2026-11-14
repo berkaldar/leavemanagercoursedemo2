@@ -13,5 +13,5 @@ step 7). Nothing lands here without that decision; noise is rejected in the tria
   — Recommendation: <the reviewer's action> — Deferred by: <name>, <YYYY-MM-DD>, <why>
   A decision deferred at bootstrap (its REPORT) uses Source: bootstrap <YYYY-MM-DD>.
 -->
-- **B-1** — README enforcement table has no row for "no agent push to `main`" (hook + permission ask) — Source: chore/git-hygiene (PR #5), review round 1 (`README.md:130-142`) — Severity: Info
-  — Recommendation: add a row "No push to main / merge needs human: Enforced (hook + ask) for Claude Code" — Deferred by: Berk, 2026-11-14, outside PR #5's A/B/C scope
+- **B-1** — README enforcement table understates this repo: no row for "no direct push to `main`", and the force-push and CI-green rows ignore branch protection — Source: chore/git-hygiene (PR #5) and chore/branch-protection (PR #7, finding 1), review round 1 (`README.md:130-150`) — Severity: Low
+  — Recommendation: add a row "No direct push to `main`: Enforced (GitHub branch protection) for all tools, plus hook + merge ask for Claude Code"; qualify the force-push and CI-green rows with "Enforced on `main` (branch protection)" — Deferred by: Berk, 2026-11-14, outside PR #5 and PR #7 scope (README is generic ANEW text)
