@@ -9,7 +9,13 @@ it instead of verifying again.
 
 Use prompts/verify.md: run tests to capture real output and produce the criterion ↔ evidence
 table; a claim without evidence is a gap, and gaps are findings. When the spec's Design reference
-is a Claude Design artifact (docs/decisions/0001-claude-design-in-analyze.md), read it with the
-Artifact tool and compare each screenshot against the artboard for the same state; a mismatch is
-a gap. Do not write or modify any
-production code. Write the handoff, STOP. Do not ship, merge, or move files.
+is a Claude Design artifact (docs/decisions/0002-claude-design-in-analyze-and-verify.md):
+- First list the artifact. If its last-updated time differs from the one in Design reference,
+  stop and raise R-08 (the design changed after approval).
+- Otherwise read it with the Artifact tool and compare each screenshot against the artboard for
+  the same state.
+- A mismatch is a difference in content or structure: a missing element, message or action, or
+  the wrong state shown. Styling and pixel differences do not count. A mismatch is a FAIL row.
+
+Do not write or modify any production code. Write the handoff, STOP. Do not ship, merge, or move
+files.

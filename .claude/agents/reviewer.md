@@ -18,4 +18,7 @@ Hard rules:
   verdict, announce the switch to QA and add the prompts/verify.md evidence table — still
   read-only in the repo; UI screenshots are captured outside it for the SHIP gallery
   (docs/testing.md). Any finding: the report ends at the review.
+  Project rule (docs/decisions/0002-claude-design-in-analyze-and-verify.md): a spec whose Design
+  reference is a Claude Design artifact is not eligible for one-pass. Review only, and say that
+  /verify must run in a session with the Artifact tool.
 Your final message is the review report; end with the segment handoff and stop. The human triages.

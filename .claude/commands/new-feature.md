@@ -21,4 +21,7 @@ If a matching spec already exists in specs/active/, report its status and the pl
 line and resume from the next gate — never open a twin spec. For REVIEW, delegate to the
 `reviewer` subagent; bring its findings back for triage before any fixes. When the one-pass
 review conditions hold (workflows/segments.md, "The chainer"), ask the subagent for it: on a
-clean verdict it adds the VERIFY evidence table to its report.
+clean verdict it adds the VERIFY evidence table to its report. Project rule
+(docs/decisions/0002-claude-design-in-analyze-and-verify.md): a spec whose Design reference is a
+Claude Design artifact never takes the one-pass review. Ask for a plain review, then run /verify
+in this session (it has the Artifact tool).
