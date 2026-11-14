@@ -1,6 +1,6 @@
 # Spec 0001 — Walking skeleton
 
-- Status: In progress
+- Status: Shipped
 - Mode: lite
 - Plan: `specs/plans/0001-plan.md`
 - Self-critique: done
@@ -55,39 +55,61 @@ any leave, balance or login behavior, any data storage, and any styling.
 - Not a sensitive area.
 
 ## Acceptance criteria
-- [ ] AC-1 — From a clean clone on Node 24, one install command installs the API, web and
+- [x] AC-1 — From a clean clone on Node 24, one install command installs the API, web and
   contracts parts together; `./scripts/check` (full) runs that install as its first step.
-- [ ] AC-2 — The running API answers the health check with "up" (`{ "status": "ok" }`) without
+- [x] AC-2 — The running API answers the health check with "up" (`{ "status": "ok" }`) without
   a login, and the answer contains nothing else.
-- [ ] AC-3 — The running web app shows one page whose single top-level heading is
+- [x] AC-3 — The running web app shows one page whose single top-level heading is
   "Leave Manager", followed by the line "Nothing here yet."; document title "Leave Manager",
   `lang="en"`.
-- [ ] AC-4 — The clock returns today as `YYYY-MM-DD` in `Europe/Istanbul`, including just
+- [x] AC-4 — The clock returns today as `YYYY-MM-DD` in `Europe/Istanbul`, including just
   before and just after midnight in that zone (where the UTC date differs); a fixed clock
   returns exactly the date it was given.
-- [ ] AC-5 — Each of the five forbidden-dependency rules has an architecture-test case that fails
+- [x] AC-5 — Each of the five forbidden-dependency rules has an architecture-test case that fails
   on a violating example and passes on a compliant one, and the architecture test runs against
   the real source tree in `scripts/check` (passing there while the modules do not exist yet).
-- [ ] AC-6 — Tooling is active: an `enum` fails typecheck; `dangerouslySetInnerHTML` fails lint;
+- [x] AC-6 — Tooling is active: an `enum` fails typecheck; `dangerouslySetInnerHTML` fails lint;
   a floating promise fails lint; a misformatted file fails the format step. Each violation is
   planted temporarily at VERIFY and removed — never committed.
-- [ ] AC-7 — `./scripts/check` (full) runs install, format, lint, typecheck, test, audit and is
+- [x] AC-7 — `./scripts/check` (full) runs install, format, lint, typecheck, test, audit and is
   green; `./scripts/check --fast` runs format, lint, typecheck, test and is green.
-- [ ] AC-8 — The API and the web app each start with one documented command and stop cleanly on
+- [x] AC-8 — The API and the web app each start with one documented command and stop cleanly on
   Ctrl+C.
 
 ## Definition of Done
-- [ ] Every acceptance criterion mapped to proof (test or reproducible observation)
-- [ ] `scripts/check` green
-- [ ] Independent review done; real findings fixed, noise rejected with written rationale, deferred ones in `specs/backlog.md`
-- [ ] Docs / ADRs updated if behavior or architecture changed
-- [ ] Spec moved to `specs/done/` (it becomes immutable there)
+- [x] Every acceptance criterion mapped to proof (test or reproducible observation)
+- [x] `scripts/check` green
+- [x] Independent review done; real findings fixed, noise rejected with written rationale, deferred ones in `specs/backlog.md`
+- [x] Docs / ADRs updated if behavior or architecture changed
+- [x] Spec moved to `specs/done/` (it becomes immutable there)
+
+## Evidence
+
+Full green: `CHECK GREEN (full, 6 steps, 20 s) @74f1d16` (28 tests); `c6af459` and this ship
+commit touch only `specs/` (`git diff --name-only 74f1d16 HEAD -- . :!specs/` prints nothing).
+Clean clone at c6af459 outside the repo: `CHECK GREEN (full, 6 steps, 22 s)`. Residue clean
+(fast + full) @85e8230; check.conf unchanged since.
+
+| Acceptance criterion | Evidence | Status |
+|---|---|---|
+| AC-1 | clean clone + `npm ci` installs 3 workspaces; check step `install` first | PASS |
+| AC-2 | `apps/api/src/health.test.ts`; `curl /health` → exactly `{"status":"ok"}`, no login; break: extra field → test red, HTTP still stripped (response schema) | PASS |
+| AC-3 | headless Playwright: one h1 "Leave Manager", "Nothing here yet.", title, `lang="en"`; S-1 agent-captured, judged by Berk at SHIP, 2026-11-14 | PASS |
+| AC-4 | `apps/api/src/shared/clock.test.ts`; breaks: zone UTC / Asia/Tokyo / fixedClock → red | PASS |
+| AC-5 | `tests/architecture.test.ts`; 6 breaks (rule 3 ×3, rule 4 regex, empty loader, real web→api import) → red | PASS |
+| AC-6 | planted at VERIFY, reverted: enum → typecheck red; dangerouslySetInnerHTML → lint red; floating promise → lint red; misformat → format red | PASS |
+| AC-7 | full: install, format, lint, typecheck, test, audit green; fast: 4 steps green, audit skipped | PASS |
+| AC-8 | `npm run dev:api` / `npm run dev:web`, real Ctrl+C event → 0 survivors, ports free | PASS |
+
+Versions (package-lock.json): typescript 6.0, fastify 5.12, react 19.3, vite 8.3,
+@vitejs/plugin-react 6.3, vitest 5.1, eslint 10.15, typescript-eslint 8.72, prettier 3.10,
+@types/node 24.
 
 ## Scorecard (fill at ship — honest numbers make the process improvable)
 | Metric | Value |
 |---|---|
-| Spec revisions | |
-| Fix rounds | |
-| Review findings: real / noise / deferred | |
-| Regressions introduced | |
-| Bugs escaped to production | |
+| Spec revisions | 1 (self-critique G1–G5 folded in before approval) |
+| Fix rounds | 1 |
+| Review findings: real / noise / deferred | 5 / 1 / 0 |
+| Regressions introduced | 0 |
+| Bugs escaped to production | 0 (not deployed) |
