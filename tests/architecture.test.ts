@@ -81,6 +81,14 @@ describe('rule 5 — services and working-days import neither fastify nor node:s
       ),
     ).toEqual([5]);
   });
+  it('fails on a @fastify plugin in a service', () => {
+    expect(
+      rulesBroken(
+        'apps/api/src/modules/leave/service.ts',
+        "import type { CookieSerializeOptions } from '@fastify/cookie';",
+      ),
+    ).toEqual([5]);
+  });
   it('fails on node:sqlite in working-days', () => {
     expect(rulesBroken('apps/api/src/shared/working-days.ts', "import 'node:sqlite';")).toEqual([
       5,

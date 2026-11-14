@@ -67,7 +67,10 @@ export function checkArchitecture(files: SourceFile[]): Violation[] {
       // 5. services and working-days stay free of fastify and node:sqlite.
       if (
         isDomain &&
-        (spec === 'fastify' || spec.startsWith('fastify/') || spec === 'node:sqlite')
+        (spec === 'fastify' ||
+          spec.startsWith('fastify/') ||
+          spec.startsWith('@fastify/') ||
+          spec === 'node:sqlite')
       ) {
         add(5, file.path, `imports ${spec}`);
       }
