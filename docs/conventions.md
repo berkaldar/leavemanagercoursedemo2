@@ -17,7 +17,8 @@
 ## Language & framework versions
 
 - Node.js 24 LTS, npm 11, npm workspaces (`apps/api`, `apps/web`, `packages/contracts`).
-- TypeScript with `strict`, `noUncheckedIndexedAccess`, `erasableSyntaxOnly`.
+- TypeScript 6.0 (typescript-eslint supports `<6.1`; TypeScript 7 is its own spec) with `strict`,
+  `noUncheckedIndexedAccess`, `erasableSyntaxOnly`.
 - Fastify (API), React + Vite (web), SQLite via built-in `node:sqlite`, Vitest, ESLint (flat
   config) + typescript-eslint, Prettier.
 - Exact versions: the latest stable major at the walking skeleton, pinned by `package-lock.json`
@@ -71,6 +72,7 @@
 - `erasableSyntaxOnly`: no `enum`, `namespace` or constructor parameter properties — Node's
   built-in TypeScript stripping cannot run them (moved here from Known traps at bootstrap).
 - ESLint: typescript-eslint recommended-type-checked incl. `no-floating-promises`;
-  `react/no-danger` (no `dangerouslySetInnerHTML`).
+  `no-restricted-syntax` bans the `dangerouslySetInnerHTML` JSX attribute (no React plugin —
+  `eslint-plugin-react` fails the dependency policy, plan 0001 R2).
 - Prettier `--check`.
 - Forbidden module dependencies: `tests/architecture.test.ts` (`docs/architecture.md`).
