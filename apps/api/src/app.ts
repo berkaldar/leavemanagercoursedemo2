@@ -34,7 +34,11 @@ export function buildApp({ db, clock }: AppDeps): FastifyInstance {
     if (error instanceof DomainError) {
       return reply.code(422).send(errorBody(error.code, error.message));
     }
-    if (error.validation || error.statusCode === 415) {
+    // Schema failures, malformed or empty JSON, wrong content type: the client's input (4xx).
+    if (
+      error.validation ||
+      (error.statusCode && error.statusCode >= 400 && error.statusCode < 500)
+    ) {
       return reply
         .code(error.statusCode ?? 400)
         .send(errorBody('INVALID_INPUT', 'Invalid request.'));
