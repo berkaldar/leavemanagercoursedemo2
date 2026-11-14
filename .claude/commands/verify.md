@@ -10,8 +10,11 @@ it instead of verifying again.
 Use prompts/verify.md: run tests to capture real output and produce the criterion ↔ evidence
 table; a claim without evidence is a gap, and gaps are findings. When the spec's Design reference
 is a Claude Design artifact (docs/decisions/0002-claude-design-in-analyze-and-verify.md):
+- This must be a fresh session, not the builder's. Without the Artifact tool, say so and stop:
+  never produce the table without the design comparison.
 - First list the artifact. If its last-updated time differs from the one in Design reference,
-  stop and raise R-08 (the design changed after approval).
+  stop and ask the human: either they confirm the design is unchanged (record the new time next
+  to the old one), or they raise R-08.
 - Otherwise read it with the Artifact tool and compare each screenshot against the artboard for
   the same state.
 - A mismatch is a difference in content or structure: a missing element, message or action, or

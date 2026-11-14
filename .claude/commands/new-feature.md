@@ -23,5 +23,6 @@ line and resume from the next gate — never open a twin spec. For REVIEW, deleg
 review conditions hold (workflows/segments.md, "The chainer"), ask the subagent for it: on a
 clean verdict it adds the VERIFY evidence table to its report. Project rule
 (docs/decisions/0002-claude-design-in-analyze-and-verify.md): a spec whose Design reference is a
-Claude Design artifact never takes the one-pass review. Ask for a plain review, then run /verify
-in this session (it has the Artifact tool).
+Claude Design artifact never takes the one-pass review. Ask for a plain review. After triage and
+fix rounds, stop with "Next: VERIFY — fresh Claude Code session runs /verify <NNNN>". That
+session has the Artifact tool; the builder's session never verifies.

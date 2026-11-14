@@ -23,15 +23,18 @@ version. The artifact listing shows a last-updated time.
 
 ## Decision
 
-For a full spec with a user interface, the Analyst (Claude Code) proposes the design as a Claude
-Design artifact before the spec approval gate. The human approves spec and design together.
-VERIFY compares each screenshot against the artboard for the same state, and does so only in a
-session with the Artifact tool. Such specs therefore never take the one-pass review.
+For a full spec with a user interface and no design link supplied by the human, the Analyst
+(Claude Code) proposes the design as a Claude Design artifact before the spec approval gate. The
+human approves spec and design together. VERIFY compares each screenshot against the artboard for
+the same state, and does so only in a fresh session (not the builder's) that has the Artifact
+tool. Such specs therefore never take the one-pass review.
 
 Mechanics (wired in `.claude/commands/analyze.md`, `verify.md`, `new-feature.md` and
 `.claude/agents/reviewer.md`):
 - **Scope.** Applies when the spec's User experience is not "none — no user interface". Full
-  specs only: mini-specs (CHANGE lane) keep ANEW-0008's `Design:` link unchanged.
+  specs only: mini-specs (CHANGE lane) keep ANEW-0008's `Design:` link unchanged. If the human
+  supplies a design link (as `prompts/spec.md` asks), that link is used as is and no artifact is
+  created.
 - **Override.** This overrides `prompts/spec.md` "Never invent visuals" for Claude Code sessions
   in this project. The artboards are a proposal the human approves at the spec gate, not an
   invented design.
@@ -49,17 +52,24 @@ Mechanics (wired in `.claude/commands/analyze.md`, `verify.md`, `new-feature.md`
   - At spec approval, republish the artifact *unchanged* with the label `Spec NNNN — approved`.
   - Then record the label and the artifact's last-updated time from the artifact listing:
     `Design reference: <URL> — version "Spec NNNN — approved", last updated <timestamp>`.
+  - After an approved R-08 design change, republish with the label
+    `Spec NNNN — approved (R-08, <date>)` and replace the recorded label and time.
 - **Verify.**
+  - VERIFY runs in a fresh Claude Code session, never the builder's (AGENTS.md rule 3). A session
+    without the Artifact tool says so and stops; it never produces the table without the
+    comparison.
   - Before comparing, VERIFY lists the artifact. If its last-updated time differs from the one
-    recorded, stop and raise R-08: the design changed after approval.
+    recorded, stop and ask the human: either they confirm the design is unchanged (the new time
+    is recorded next to the old one in `Design reference`), or they raise R-08.
   - A mismatch is a state whose content or structure differs from its artboard: a missing
     element, message or action, or the wrong state shown. Styling and pixel differences do not
     count.
   - A mismatch is a FAIL row in the evidence table. It goes to triage and is fixed in code, or
     in the design through R-08.
 - **One-pass.** A spec whose `Design reference` is a Claude Design artifact is not eligible for
-  the one-pass review. The subagent reviews only, and `/verify` runs in a session with the
-  Artifact tool. The subagent does not get that tool, because it can also publish.
+  the one-pass review. The subagent reviews only. After triage and fix rounds, `/new-feature`
+  stops and hands VERIFY to a fresh session with the Artifact tool. The subagent does not get
+  that tool, because it can also publish.
 - **Gates.** No new gate: the spec approval gate covers the design (ANEW-0008).
 
 ## Consequences
