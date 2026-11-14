@@ -8,5 +8,8 @@ and ask. A clean one-pass review (lite, workflows/segments.md) already holds the
 it instead of verifying again.
 
 Use prompts/verify.md: run tests to capture real output and produce the criterion ↔ evidence
-table; a claim without evidence is a gap, and gaps are findings. Do not write or modify any
+table; a claim without evidence is a gap, and gaps are findings. When the spec's Design reference
+is a Claude Design artifact (docs/decisions/0001-claude-design-in-analyze.md), read it with the
+Artifact tool and compare each screenshot against the artboard for the same state; a mismatch is
+a gap. Do not write or modify any
 production code. Write the handoff, STOP. Do not ship, merge, or move files.
