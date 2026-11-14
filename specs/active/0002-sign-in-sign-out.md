@@ -1,6 +1,6 @@
 # Spec 0002 — Sign in / sign out
 
-- Status: Approved
+- Status: In progress
 - Mode: lite
 - Plan: `specs/plans/0002-plan.md`
 - Self-critique: done
