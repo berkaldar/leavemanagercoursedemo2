@@ -15,3 +15,5 @@ step 7). Nothing lands here without that decision; noise is rejected in the tria
 -->
 - **B-1** — README enforcement table understates this repo: no row for "no direct push to `main`", and the force-push and CI-green rows ignore branch protection — Source: chore/git-hygiene (PR #5) and chore/branch-protection (PR #7, finding 1), review round 1 (`README.md:130-150`) — Severity: Low
   — Recommendation: add a row "No direct push to `main`: Enforced (GitHub branch protection) for all tools, plus hook + merge ask for Claude Code"; qualify the force-push and CI-green rows with "Enforced on `main` (branch protection)" — Deferred by: Berk, 2026-11-14, outside PR #5 and PR #7 scope (README is generic ANEW text)
+- **B-2** — Sign out shows the sign-in form even when the API did not end the session (API down or 5xx); a reload then shows the user signed in again — Source: spec 0002, review round 1 (`apps/web/src/app.tsx:25`, `apps/web/src/api.ts:31-33`) — Severity: Low
+  — Recommendation: decide a "sign out failed" state in a spec; then switch to signed-out only on 204 or 401 — Deferred by: Berk, 2026-11-14, the spec defines no such state

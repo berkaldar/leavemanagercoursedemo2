@@ -65,6 +65,10 @@
   test script uses `vitest run` — from bootstrap.
 - An unclosed Fastify app or DB handle keeps the process alive — anything that builds the app
   calls `await app.close()`, which closes the DB through an `onClose` hook — from bootstrap.
+- Fastify's default Ajv strips unknown body properties and coerces types (`removeAdditional`,
+  `coerceTypes`): `additionalProperties: false` does not reject a request — set
+  `ajv.customOptions` in `buildApp` when a criterion needs rejection. A route without a body
+  (e.g. `POST /logout`) has no body schema — from spec 0002 review (L3, A-2).
 
 ## Enforced by tooling
 
