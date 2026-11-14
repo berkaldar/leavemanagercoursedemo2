@@ -27,7 +27,9 @@ function resolve(from: string, spec: string): string {
 }
 
 const MODULE_RE = /^apps\/api\/src\/modules\/([^/]+)\/(.+)$/;
-const BALANCE_WRITE_RE = /\b(?:insert\s+into|update|delete\s+from)\s+["'`]?balances\b/i;
+// SQLite write forms incl. conflict clauses (INSERT OR REPLACE, UPDATE OR IGNORE) and schema prefixes.
+const BALANCE_WRITE_RE =
+  /\b(?:insert(?:\s+or\s+\w+)?\s+into|replace\s+into|update(?:\s+or\s+\w+)?|delete\s+from)\s+(?:\w+\.)?["'`]?balances\b/i;
 
 const isRepo = (target: string) => /(^|\/)repo(\.ts)?$/.test(target);
 const isIndex = (rest: string) => /^index(\.ts)?$/.test(rest);

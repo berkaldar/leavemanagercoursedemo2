@@ -49,6 +49,24 @@ describe('rule 4 — only modules/balance writes balance rows', () => {
   it('fails when another module updates balances', () => {
     expect(rulesBroken('apps/api/src/modules/leave/repo.ts', sql)).toEqual([4]);
   });
+  it.each([
+    'INSERT OR REPLACE INTO balances (id) VALUES (?)',
+    'REPLACE INTO balances (id) VALUES (?)',
+    'UPDATE OR IGNORE balances SET days = ?',
+    'UPDATE main.balances SET days = ?',
+  ])('fails on the SQLite write form: %s', (write) => {
+    expect(rulesBroken('apps/api/src/modules/leave/repo.ts', `db.prepare('${write}');`)).toEqual([
+      4,
+    ]);
+  });
+  it('passes when another module only reads balances', () => {
+    expect(
+      rulesBroken(
+        'apps/api/src/modules/leave/repo.ts',
+        "db.prepare('SELECT days FROM balances WHERE id = ?');",
+      ),
+    ).toEqual([]);
+  });
   it('passes when modules/balance writes them', () => {
     expect(rulesBroken('apps/api/src/modules/balance/repo.ts', sql)).toEqual([]);
   });
