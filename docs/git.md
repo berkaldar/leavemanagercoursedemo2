@@ -50,10 +50,14 @@
   session) is posted to the PR as a comment (`gh pr comment`), and the PR description links the
   plan's `## Triage` (when there is a plan; otherwise the triage is recorded in a PR comment).
   A solo developer cannot approve their own PR on GitHub, so this comment is the review record.
-- **Enforcement on this repo.** Branch protection is not available for a private repo on
-  GitHub Free, so "no direct commits to `main`", "CI green before merge" and "review before
-  merge" are not enforced by GitHub. For Claude Code: the `protect-main.sh` hook blocks
-  `git push` while on `main`, to a refspec naming `main`, or with `--all`/`--mirror`; every
-  `gh pr merge` asks the human first (merge is the human's SHIP step), and `--admin` is denied
-  (best effort: text matching, not a shell parser). For humans these rules are not Enforced:
-  CI still runs on every push and PR (a red run is visible), but nothing blocks the merge.
+- **Enforcement on this repo.** The repo is public (since 2026-11-14), and `main` has GitHub
+  branch protection, admins included:
+  - changes reach `main` only through a PR;
+  - the CI jobs `check` and `doctor` must pass before merge (branch need not be up to date);
+  - force-push and deletion of `main` are blocked.
+  "Review before merge" is not enforced by GitHub (0 required approvals: a solo developer cannot
+  approve their own PR). It stays Documented: the review comment on the PR is the record.
+  For Claude Code as well: the `protect-main.sh` hook blocks `git push` while on `main`, to a
+  refspec naming `main`, or with `--all`/`--mirror`; every `gh pr merge` asks the human first
+  (merge is the human's SHIP step), and `--admin` is denied (best effort: text matching;
+  GitHub protection is the real gate).
