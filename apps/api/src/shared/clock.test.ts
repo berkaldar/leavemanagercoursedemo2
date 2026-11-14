@@ -23,7 +23,22 @@ describe('systemClock', () => {
   });
 });
 
+describe('systemClock now', () => {
+  it('returns the current instant as UTC ISO-8601', () => {
+    expect(systemClock(() => new Date('2026-03-01T21:00:00Z')).now()).toBe(
+      '2026-03-01T21:00:00.000Z',
+    );
+  });
+});
+
 describe('fixedClock', () => {
+  it('returns the instant it was given, or midnight UTC of its date', () => {
+    expect(fixedClock('2027-02-28', '2027-02-28T10:00:00.000Z').now()).toBe(
+      '2027-02-28T10:00:00.000Z',
+    );
+    expect(fixedClock('2027-02-28').now()).toBe('2027-02-28T00:00:00.000Z');
+  });
+
   it('returns exactly the date it was given', () => {
     expect(fixedClock('2027-02-28').today()).toBe('2027-02-28');
   });
