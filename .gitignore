@@ -18,3 +18,6 @@ Thumbs.db
 # Node
 node_modules/
 dist/
+
+# Local dev database (spec 0002)
+apps/api/.data/
