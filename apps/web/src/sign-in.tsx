@@ -43,7 +43,11 @@ export function SignIn({ onSignedIn }: { onSignedIn: (me: MeResponse) => void })
       onSignedIn(result.me);
       return;
     }
-    const after = failed(next, result.outcome === 'credentials' ? 'credentials' : 'unavailable');
+    // From the latest state, so typing during the attempt is kept.
+    const after = failed(
+      current.current,
+      result.outcome === 'credentials' ? 'credentials' : 'unavailable',
+    );
     update(after);
     focusFirstProblem(after);
   }
