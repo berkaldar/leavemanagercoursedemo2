@@ -25,7 +25,13 @@ public `index.ts`.
 
 `npm ci` once, then one command each (never part of `scripts/check`; Ctrl+C stops them):
 - API: `npm run dev:api` → `http://127.0.0.1:3000` (Node 24 runs the TypeScript directly).
-- Web: `npm run dev:web` → Vite dev server (`http://localhost:5173`).
+- Web: `npm run dev:web` → Vite dev server (`http://localhost:5173`). It proxies `/api/*` to
+  the API (prefix stripped), so the session cookie is same-origin.
+- Data: the API keeps its SQLite file in `apps/api/.data/leave.sqlite` (gitignored, disposable:
+  delete it to start over). Outside `NODE_ENV=production` it seeds two invented demo accounts on
+  start (`apps/api/src/seed.ts`; demo credentials are not secrets, `docs/security.md`):
+  - `alex.sample@example.com` / `demo-employee` — Alex Sample (employee)
+  - `morgan.example@example.com` / `demo-manager` — Morgan Example (manager)
 
 ## Modules / components and ownership
 
